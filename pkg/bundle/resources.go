@@ -306,13 +306,18 @@ func readContent(ctx context.Context, progress *progress.Progress, base, name st
 		return nil, err
 	}
 
+	getters := make(map[string]getter.Getter)
+	for k, v := range getter.Getters {
+		getters[k] = v
+	}
+
 	c := getter.Client{
 		Ctx:     ctx,
 		Src:     name,
 		Dst:     temp,
 		Pwd:     base,
 		Mode:    getter.ClientModeDir,
-		Getters: getter.Getters,
+		Getters: getters,
 		// TODO: why doesn't this work anymore
 		//ProgressListener: progress,
 	}
